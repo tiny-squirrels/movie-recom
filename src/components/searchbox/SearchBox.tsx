@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { SearchResult } from "../../types";
 import { fetchSearchList } from "../../utils";
+import BackgroundImage from "../background/BackgroundImage";
+import SelectedMovies from "../selectedMovies/SelectedMovies";
 import SearchResultItem from "./SearchResultItem";
 
 const SearchBox = () => {
   const [searchInput, setSearchInput] = useState<string>();
   const [searchResultList, setSearchResultList] =
     useState<Array<SearchResult>>();
+  const [selectedIds, setSelectedIds] = useState<Array<string>>();
+  const [selectedPosters, setSelectedPosters] = useState<Array<string>>();
+
+  const selectItem = (id: string, poster: string) => {
+    setSelectedIds(selectedIds ? [...selectedIds, id] : [id]);
+    setSelectedPosters(
+      selectedPosters ? [...selectedPosters, poster] : [poster]
+    );
+  };
 
   useEffect(() => {
     if (searchInput) {
@@ -18,25 +29,32 @@ const SearchBox = () => {
     }
   }, [searchInput]);
 
-  console.log(searchResultList);
-
   return (
-    <div className="w-full flex flex-row my-4">
+    <div className="relative w-full flex flex-col">
+      <BackgroundImage
+        className="absolute top-0 left-0 right-0 bottom-0"
+        posters={selectedPosters}
+      />
       <input
         type="text"
-        className="bg-red border-2 border-black m-auto"
+        className="bg-red border-2 border-black m-auto z-10 my-40"
         onChange={(event) => setSearchInput(event.target.value)}
       />
-      {searchResultList
-        ? searchResultList.map((searchResultItem) => (
-            <SearchResultItem
-              key={searchResultItem.imdbID}
-              poster={searchResultItem.Poster}
-              title={searchResultItem.Title}
-              year={searchResultItem.Year}
-            />
-          ))
-        : null}
+      <div className="flex flex-row z-10">
+        {searchResultList
+          ? searchResultList.map((searchResultItem) => (
+              <SearchResultItem
+                id={searchResultItem.imdbID}
+                onSelected={selectItem}
+                key={searchResultItem.imdbID}
+                poster={searchResultItem.Poster}
+                title={searchResultItem.Title}
+                year={searchResultItem.Year}
+              />
+            ))
+          : null}
+      </div>
+      {selectedIds ? <SelectedMovies imdbIds={selectedIds} /> : null}
     </div>
   );
 };
