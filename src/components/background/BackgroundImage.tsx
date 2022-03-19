@@ -13,6 +13,7 @@ const backgroundImageFac = (posters: Array<string>) => {
       backgroundSize: "cover",
       flexBasis: `${(1 / posters.length) * 100}%`,
       opacity: 0.3,
+      minWidth: "33%",
     };
 
     result.push(<div style={style} />);
@@ -23,7 +24,9 @@ const backgroundImageFac = (posters: Array<string>) => {
 
 const BackgroundImage = ({ posters, className }: Props) => {
   return (
-    <div className={`flex flex-row w-full h-full ${className}`}>
+    <div
+      className={`flex flex-row w-full h-full flex-wrap justify-center ${className}`}
+    >
       {posters ? backgroundImageFac(posters) : null}
     </div>
   );
