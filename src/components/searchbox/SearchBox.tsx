@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { SearchResult } from "../../types";
 import { fetchSearchList } from "../../utils";
 import BackgroundImage from "../background/BackgroundImage";
+import DefaultBackground from "../background/DefaultBackground";
 import SelectedMovies from "../selectedMovies/SelectedMovies";
 import SearchResultItem from "./SearchResultItem";
 
@@ -31,13 +32,17 @@ const SearchBox = () => {
 
   return (
     <div className="relative w-full flex flex-col">
-      <BackgroundImage
-        className="absolute top-0 left-0 right-0 bottom-0"
-        posters={selectedPosters}
-      />
+      {selectedPosters ? (
+        <BackgroundImage
+          className="absolute top-0 left-0 right-0 bottom-0"
+          posters={selectedPosters}
+        />
+      ) : (
+        <DefaultBackground />
+      )}
       <input
         type="text"
-        className="bg-red border-2 border-black m-auto z-10 my-40"
+        className="searchBox"
         onChange={(event) => setSearchInput(event.target.value)}
       />
       <div className="flex flex-row z-10">

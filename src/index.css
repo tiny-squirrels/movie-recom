@@ -15,3 +15,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+@layer components {
+  .searchBox {
+    @apply border-2 border-black m-auto z-10 my-40 px-4 py-1;
+    background-color: rgba(255, 255, 255, 0.6);
+    width: 80%;
+    height: 50px;
+    border-radius: 25px;
+  }
+}
